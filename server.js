@@ -1,6 +1,7 @@
-const http = require("node:http");
-const fs = require("node:fs/promises");
-const path = require("node:path");
+const http = require("http");
+const https = require("https");
+const fs = require("fs/promises");
+const path = require("path");
 
 const PORT = Number(process.env.PORT || 4173);
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -195,35 +196,50 @@ async function queryRelayBalance(baseUrl, apiKey) {
 }
 
 async function fetchJson(baseUrl, apiPath, apiKey) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 12000);
+  const url = new URL(apiPath, `${baseUrl}/`);
+  const body = await requestText(url, {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json"
+  });
 
   try {
-    const url = new URL(apiPath, `${baseUrl}/`);
-    const response = await fetch(url, {
+    return JSON.parse(body);
+  } catch {
+    throw withPublicMessage("接口返回的数据无法读取");
+  }
+}
+
+function requestText(url, headers) {
+  return new Promise((resolve, reject) => {
+    const client = url.protocol === "https:" ? https : http;
+    const req = client.request(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-      },
-      signal: controller.signal
+      headers,
+      timeout: 12000
+    }, (res) => {
+      const chunks = [];
+
+      res.on("data", (chunk) => chunks.push(chunk));
+      res.on("end", () => {
+        const body = Buffer.concat(chunks).toString("utf8");
+        if (res.statusCode < 200 || res.statusCode >= 300) {
+          reject(withPublicMessage(res.statusCode === 401 || res.statusCode === 403
+            ? "接口拒绝了这个令牌"
+            : `接口返回了错误状态 ${res.statusCode}`));
+          return;
+        }
+        resolve(body);
+      });
     });
 
-    if (!response.ok) {
-      throw withPublicMessage(response.status === 401 || response.status === 403
-        ? "接口拒绝了这个令牌"
-        : `接口返回了错误状态 ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    if (error.name === "AbortError") {
-      throw withPublicMessage("接口响应超时");
-    }
-    throw error.publicMessage ? error : withPublicMessage("接口返回的数据无法读取");
-  } finally {
-    clearTimeout(timer);
-  }
+    req.on("timeout", () => {
+      req.destroy(withPublicMessage("接口响应超时"));
+    });
+    req.on("error", (error) => {
+      reject(error.publicMessage ? error : withPublicMessage("接口返回的数据无法读取"));
+    });
+    req.end();
+  });
 }
 
 function normalizeLog(log) {

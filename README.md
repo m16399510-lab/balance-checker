@@ -26,6 +26,8 @@ http://localhost:4173
 
 默认会连接 `https://api.yuyanjia.top`。请输入你自己的预言家 API 令牌查询。
 
+宝塔如果只有 Node `v14.17.6`，也可以直接选这个稳定版运行。
+
 ## 改成别的接口服务
 
 以后如果要临时换接口服务，PowerShell 里这样启动：
