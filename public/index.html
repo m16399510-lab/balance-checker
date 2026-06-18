@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>预言家 API 余额查询</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace" aria-label="API 余额查询">
+        <header class="masthead">
+          <div>
+            <p class="eyebrow">Prophet API Console</p>
+            <h1>预言家 API<br>余额查询台</h1>
+            <p class="subtitle">输入令牌后查询额度、消耗和最近调用明细。</p>
+          </div>
+          <div class="status" id="connectionStatus">预言家 API站</div>
+        </header>
+
+        <form class="query-bar" id="queryForm">
+          <select id="serverSelect" hidden aria-hidden="true"></select>
+          <label class="field field-key">
+            <span>令牌</span>
+            <input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxx">
+          </label>
+          <button class="primary-button" id="queryButton" type="submit">
+            <span id="buttonLabel">查询</span>
+          </button>
+        </form>
+
+        <section class="metrics" aria-label="余额信息">
+          <article class="metric metric-strong">
+            <span>剩余额度</span>
+            <strong id="remainingValue">--</strong>
+          </article>
+          <article class="metric">
+            <span>令牌总额</span>
+            <strong id="totalValue">--</strong>
+          </article>
+          <article class="metric">
+            <span>已用额度</span>
+            <strong id="usedValue">--</strong>
+          </article>
+          <article class="metric">
+            <span>有效期至</span>
+            <strong id="accessValue">--</strong>
+          </article>
+        </section>
+
+        <div class="message" id="messageBox" hidden></div>
+
+        <section class="log-panel" aria-label="调用详情">
+          <div class="panel-heading">
+            <div>
+              <p class="panel-kicker">Usage Records</p>
+              <h2>调用详情</h2>
+            </div>
+            <button class="ghost-button" id="csvButton" type="button" disabled>导出 CSV</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>模型</th>
+                  <th>用时</th>
+                  <th>提示</th>
+                  <th>补全</th>
+                  <th>花费</th>
+                  <th>详情</th>
+                </tr>
+              </thead>
+              <tbody id="logsBody">
+                <tr>
+                  <td colspan="7" class="empty">暂无数据</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
