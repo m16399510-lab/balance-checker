@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="预言家 API 余额查询">
+  <defs>
+    <linearGradient id="bg" x1="10" y1="6" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#173a68"/>
+      <stop offset="0.58" stop-color="#0b1a32"/>
+      <stop offset="1" stop-color="#07101f"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="14" y1="14" x2="50" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6eb8ff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#153b72" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="16" y1="8" x2="48" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff2bd"/>
+      <stop offset="1" stop-color="#d9a84f"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#bg)"/>
+  <path d="M13 49C20 54 31 56 42 52C51 49 57 42 58 33" fill="none" stroke="#4ea3ff" stroke-opacity="0.24" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="29" cy="29" r="17" fill="url(#glass)" stroke="url(#gold)" stroke-width="3"/>
+  <path d="M20 19L29 31M38 19L29 31M29 31V42" fill="none" stroke="#fff4d4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="43" cy="43" r="8" fill="#0b1a32" fill-opacity="0.82" stroke="#8cc7ff" stroke-width="3"/>
+  <path d="M49 49L56 56" stroke="url(#gold)" stroke-width="5" stroke-linecap="round"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="13.5" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="3"/>
+</svg>
